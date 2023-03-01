@@ -39,7 +39,7 @@
   - Customer does not let its providers route through it to other providers
   > Mailman doesn't hand you your neighbors mail and expect you to do extra work
 
-> TODO: revisit slides. Copy Diagram
+![](images/2023-03-01-13-11-12.png)
 
 ## Tier-1 Providers
 - Make up the "core" of the Internet
@@ -49,6 +49,8 @@
 - Top of the Internet hierarchy o ~10-20 ASes
   - E.g. AT&T, Lumen (CenturyLink), NTT/Verio/ Verizon, ChinaNet
   - Full peer-peer connectiosn between tier-1 providers
+
+![](images/2023-03-01-13-11-34.png)
 
 ## The Internet Hierarchy
 
@@ -66,7 +68,7 @@
 - Customer IP Networks
   - Pay for access BW
 
-> TODO: revisit slides. Copy Diagram
+![](images/2023-03-01-13-11-48.png)
 
 ## Multi-Homing
 - Customers may have more than one provider
@@ -76,7 +78,7 @@
   - Gaming the $95^{th}$-percentile billing model
   > False sense of redunancy. Providers might be sharing the same link --> that physical link goes down == all providers go down. Major outage happened recently when a flight center in Germany had flights cancelled/delayed when a single line threw off ALL of their providers!
 
-> TODO: revisit slides. Copy Diagram
+![](images/2023-03-01-13-12-08.png)
 
 ## BGP Summary
 - Interdommain-Routing
@@ -85,8 +87,8 @@
   - Local policy to decide which path to follow
 
 - Traffic change policies are a big issue ($$$)
-
-> TODO: revisit slides. Copy last 2 bullet points
+  - Complicated by lack of compelling economic model (who creates value?)
+  - Can have significant impact on performance
 
 ## Hurricane Electric Internet Services
 
@@ -115,26 +117,42 @@ Demo in class showing use cases of the site: https://bgp.he.net/
 ## Router Functions
 1. Receive incoming packet from link input interface
 2. Lookup packet destination in forwarding table (dest, output port(s))
-3. Validate checksum, decrement TTL, 
-
-> TODO: revisit slides. Copy the rest of the functions
+3. Validate checksum, decrement TTL, update checksum
+4. Buffer packet in input queue
+5. Send packet to output interface (interfaces?)
+6. Bufffer packet in output queue
+7. Send packet to output interface link
 
 ## Router funtional Architecture
 ```ditaa {cmd, args=[-E]}
-+---------------+-----------------------+-------------------+
-| Firewall      | Reservation/          | Routing Protocols |
-|               | Admisstion Control    |                   |
-+---------------+-----------------------+-------------------+
-|               |                       |                   |
-| +-----------+ |                       |                   |
-| | Classifica| |                       |                   |
-| | tion Rules| |                       |                   |
-| +-----------+ |                       |                   |
-|               |                       |                   |
-+---------------+-----------------------+-------------------+
-```
++-------------------+-----------------------+-------------------+
+| Firewall          | Reservation/          | Routing Protocols |
+|                   | Admisstion Control    |        |          |
++------+------------+-----+-----------------+--------+----------+
+|      |                  |                          |          |
+|      v                  |                          v          |
+| +----------------+      |               +------------------+  |
+| | Classification | <----+               |Routing           |  |
+| | Rules          |                      |Table             |  |
+| +--+-------------+                      +------------------+  |
+|    |          |                                               |
++----+----------------------------------------------------------+
+     |          |
+     |          +===================================+
+     |                                              |
++----+----------------------------------------------|-----------+
+|    |                     +-----------+            |           |
+|    |                     |Forwarding |            |           |
+|    |                     |Table      |            |           |
+|    |                     +-----------+            |           |
+|    |                       |    ^                 |           |
+|    v                       v    |                 v           |
++----------------+----------------------+-----------------------+
+| Packet         | Switching            | Output                |
+| Classification |                      | Scheduling            |
++----------------+----------------------+-----------------------+
 
-> TODO: revisit slides. Copy Diagram
+```
 
 - Control Plane
   - Slow path
@@ -160,21 +178,23 @@ Demo in class showing use cases of the site: https://bgp.he.net/
   - Input querying
   - Output queuing
 
-> TODO: revisit slides. Copy Diagram
+![](images/2023-03-01-13-25-47.png)
 
 ## First Generation Routers (mostly software)
 
-> TODO: revisit slides Copy Diagrams. Rewatch podcast to understand
+![](images/2023-03-01-13-26-13.png)
 
 ## Second Generation Routers (HW caching forwarding table)
 
-> TODO: revisit slides. Copy Diagrams
+![](images/2023-03-01-13-26-31.png)
 
 ## One Wilshire 
 
 IXP (internet exchange points)
 
-Archeological in the sense that old wires from early stages of internet
+Archeological in the sense that old wires from early stages of internet were retained
+- difficult to isolate and remove
+- unsure if in use
 
 ## Cisco Core Router
 
