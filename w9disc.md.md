@@ -19,7 +19,7 @@
 
 - calculate the serialization delay for one packet 
   - i.e. using the capacity **R** of the outgoing link from token bucket shaper, calcuate the time for one packet to exit the shaper)
-- After each packet is transmitted, calcualte the number of oktnes left in the bucket 
+- After each packet is transmitted, calcualte the number of tokens left in the bucket 
   - There will be some tokens used up and some tokens filled up as well
 
 - For 2.1: calculate the number of tokens left by repeating the above step for the required number of times
